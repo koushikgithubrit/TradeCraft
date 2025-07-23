@@ -30,19 +30,26 @@ export default function Contact() {
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus({ type: "loading", message: "Sending message..." })
+    e.preventDefault();
+    setStatus({ type: "loading", message: "Sending message..." });
+
+    // Log the payload
+    console.log("Payload sent to backend:", {
+      name: formData.name,
+      email: formData.email,
+      message: `Subject: ${formData.subject}\nMobile: ${formData.mobile}\n\n${formData.message}`
+    });
 
     try {
       // Validate form data
       if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-        throw new Error("Please fill in all required fields")
+        throw new Error("Please fill in all required fields");
       }
 
       // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
-        throw new Error("Please enter a valid email address")
+        throw new Error("Please enter a valid email address");
       }
 
       // Send to backend
@@ -55,6 +62,15 @@ export default function Contact() {
           message: `Subject: ${formData.subject}\nMobile: ${formData.mobile}\n\n${formData.message}`
         })
       });
+
+      const text = await response.text();
+      let data = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch (e) {
+        // Not valid JSON, keep data as {}
+      }
+
       if (response.ok) {
         setStatus({
           type: "success",
@@ -62,17 +78,16 @@ export default function Contact() {
         });
         setFormData({ name: "", email: "", mobile: "", subject: "", message: "" });
       } else {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to send message");
+        throw new Error((data as any).error || "Failed to send message");
       }
     } catch (error) {
-      console.error("Contact form error:", error)
+      console.error("Contact form error:", error);
       setStatus({
         type: "error",
         message: error instanceof Error ? error.message : "Failed to send message. Please try again later.",
-      })
+      });
     }
-  }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target

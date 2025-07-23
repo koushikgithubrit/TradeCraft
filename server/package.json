@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "Backend server for TradeCraft learning platform",
   "main": "dist/index.js",
-  "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon --watch './**/*.ts' --exec \"./node_modules/.bin/ts-node-esm index.ts\"",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "start": "node dist/index.js",
+  "dev": "nodemon --watch './**/*.ts' --exec \"node --loader ts-node/esm index.ts\"",
+  "build": "tsc",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   "dependencies": {
     "@react-oauth/google": "^0.12.2",
     "axios": "^1.9.0",
@@ -29,6 +29,6 @@
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.8.2"
   }
 }

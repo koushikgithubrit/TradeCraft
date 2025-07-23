@@ -2,9 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import authRoutes from './routes/auth';
-import courseRoutes from './routes/courses';
-import contactRoutes from './routes/contact';
+import authRoutes from './routes/auth.js';
+import courseRoutes from './routes/courses.js';
+import contactRoutes from './routes/contact.js';
 
 dotenv.config();
 // const express = require('express');
