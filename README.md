@@ -1,0 +1,2 @@
+# TradeCraft
+Trading learning platform
