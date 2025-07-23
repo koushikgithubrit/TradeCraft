@@ -1,0 +1,21 @@
+{
+  "glyphs": {
+    "T": {"ha": 500, "x_min": 0, "x_max": 500, "o": "M 0 700 L 500 700 L 500 600 L 300 600 L 300 0 L 200 0 L 200 600 L 0 600 Z"},
+    "R": {"ha": 500, "x_min": 0, "x_max": 500, "o": "M 0 0 L 0 700 L 300 700 C 400 700 500 600 500 500 L 500 400 C 500 300 400 250 300 250 L 400 0 L 300 0 L 200 250 L 100 250 L 100 0 Z M 100 350 L 300 350 C 350 350 400 375 400 450 L 400 500 C 400 550 350 600 300 600 L 100 600 Z"},
+    "A": {"ha": 500, "x_min": 0, "x_max": 500, "o": "M 0 0 L 200 700 L 300 700 L 500 0 L 400 0 L 350 200 L 150 200 L 100 0 Z M 175 300 L 325 300 L 250 550 Z"},
+    "D": {"ha": 500, "x_min": 0, "x_max": 500, "o": "M 0 0 L 0 700 L 300 700 C 400 700 500 600 500 500 L 500 200 C 500 100 400 0 300 0 Z M 100 100 L 300 100 C 350 100 400 150 400 200 L 400 500 C 400 550 350 600 300 600 L 100 600 Z"},
+    "E": {"ha": 500, "x_min": 0, "x_max": 500, "o": "M 0 0 L 0 700 L 500 700 L 500 600 L 100 600 L 100 400 L 400 400 L 400 300 L 100 300 L 100 100 L 500 100 L 500 0 Z"},
+    "L": {"ha": 500, "x_min": 0, "x_max": 500, "o": "M 0 0 L 0 700 L 100 700 L 100 100 L 500 100 L 500 0 Z"},
+    "N": {"ha": 500, "x_min": 0, "x_max": 500, "o": "M 0 0 L 0 700 L 100 700 L 400 200 L 400 700 L 500 700 L 500 0 L 400 0 L 100 500 L 100 0 Z"}
+  },
+  "familyName": "Inter",
+  "ascender": 800,
+  "descender": -200,
+  "underlinePosition": -100,
+  "underlineThickness": 50,
+  "boundingBox": {"yMin": -200, "xMin": 0, "yMax": 800, "xMax": 500},
+  "resolution": 1000,
+  "original_font_information": {"format": 0, "copyright": "", "fontFamily": "Inter", "fontSubfamily": "Bold", "uniqueID": "", "fullName": "Inter Bold", "version": "", "postScriptName": "Inter-Bold"},
+  "cssFontWeight": "bold",
+  "cssFontStyle": "normal"
+} 

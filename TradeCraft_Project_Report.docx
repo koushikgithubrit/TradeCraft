@@ -1,0 +1,98 @@
+# TradeCraft: Stock Market Learning Platform
+
+## Introduction
+
+The TradeCraft project is a modern, interactive web-based platform designed to facilitate learning about stock market trading. It aims to provide users—especially beginners and enthusiasts—with comprehensive courses, real-world examples, and practical trading strategies in an engaging and user-friendly environment.
+
+**Technologies Used:**
+- **Frontend:** React, Vite, TypeScript, Tailwind CSS, Framer Motion, Three.js
+- **Backend:** Node.js, Express, TypeScript, MongoDB (Atlas), Mongoose
+- **Authentication:** Google OAuth 2.0
+- **Other Integrations:** EmailJS for contact forms, JWT for secure authentication
+
+**Field of Project:**  
+This project falls under the domain of financial technology (FinTech) and educational technology (EdTech), focusing on digital learning platforms for stock market education.
+
+**Special Technical Terms:**
+- **OAuth 2.0:** An open standard for access delegation commonly used for token-based authentication.
+- **JWT (JSON Web Token):** A compact, URL-safe means of representing claims to be transferred between two parties.
+- **MongoDB Atlas:** A cloud-based NoSQL database service.
+- **Vite:** A modern frontend build tool that provides fast development and optimized builds.
+- **Three.js:** A JavaScript library for creating 3D graphics in the browser.
+
+---
+
+## Literature Survey
+
+Several platforms and research works have contributed to the field of online stock market education and simulation:
+
+1. **Investopedia Simulator:**  
+   Investopedia offers a stock market simulator that allows users to practice trading with virtual money. It provides a risk-free environment for learning but lacks structured courses and progress tracking.
+
+2. **Coursera & Udemy Stock Market Courses:**  
+   These platforms provide a variety of stock market courses, often with video lectures and quizzes. However, they are not interactive in terms of real-time trading simulation or progress tracking.
+
+3. **TradingView Paper Trading:**  
+   TradingView offers a paper trading feature that simulates real market conditions. While it is highly interactive, it is more suited for users with some prior knowledge and does not focus on structured learning.
+
+4. **Academic Research:**  
+   - *“A Web-Based Stock Market Simulation Game for Enhancing the Learning of Finance”* (International Journal of Information and Education Technology, 2016) highlights the effectiveness of simulation-based learning in finance education.
+   - *“The Impact of Online Learning Platforms on Financial Literacy”* (Journal of Financial Education, 2019) discusses how digital platforms can improve financial literacy through interactive content.
+
+**Gap Identified:**  
+Most existing solutions either focus on simulation without structured learning or provide courses without interactive, practical exposure. TradeCraft aims to bridge this gap by combining comprehensive course content, interactive learning materials, and real-world trading simulations.
+
+---
+
+## Methodology / Planning of Work
+
+1. **Requirement Analysis:**  
+   Gather and analyze requirements for course content, user management, and interactive features.
+
+2. **System Design:**  
+   Design the system architecture, database schema, and user interface wireframes.
+
+3. **Frontend Development:**  
+   Build the user interface using React, integrate animations and 3D elements, and ensure responsive design.
+
+4. **Backend Development:**  
+   Set up the Express server, implement RESTful APIs, and integrate MongoDB for data storage.
+
+5. **Authentication & Security:**  
+   Implement Google OAuth for authentication and JWT for session management.
+
+6. **Integration:**  
+   Connect frontend and backend, integrate EmailJS for contact forms, and set up course progress tracking.
+
+7. **Testing & Deployment:**  
+   Conduct thorough testing, fix bugs, and deploy the application.
+
+---
+
+## Facilities Required for Proposed Work
+
+**Software:**
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+- MongoDB Atlas account
+- Code editor (e.g., VS Code)
+- Web browser (for testing)
+- EmailJS account (for contact form integration)
+
+**Hardware:**
+- A computer with at least 4GB RAM and a modern processor
+- Stable internet connection
+
+---
+
+## References
+
+1. Investopedia Stock Simulator: https://www.investopedia.com/simulator/
+2. Coursera Stock Market Courses: https://www.coursera.org/courses?query=stock%20market
+3. TradingView Paper Trading: https://www.tradingview.com/paper-trading/
+4. “A Web-Based Stock Market Simulation Game for Enhancing the Learning of Finance,” IJIE, 2016.
+5. “The Impact of Online Learning Platforms on Financial Literacy,” Journal of Financial Education, 2019.
+6. MongoDB Atlas Documentation: https://www.mongodb.com/atlas
+7. Vite Documentation: https://vitejs.dev/
+8. React Documentation: https://react.dev/
+9. Three.js Documentation: https://threejs.org/ 
