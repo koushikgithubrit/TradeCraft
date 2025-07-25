@@ -36,7 +36,7 @@ router.post('/google', async (req, res) => {
     const jwtToken = jwt.sign(
       { userId: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJrb3VzaGlrIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUzMjQ0NDk3fQ.px9F1enCELkkZsiNnVwPLT1hFlLsgxV_GuWFrvxlxL0',
-      { expiresIn: '7d' }
+      { expiresIn: '365d' }
     );
 
     res.json({
