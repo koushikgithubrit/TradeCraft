@@ -1,8 +1,12 @@
 "use client"
 
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { loadStripe } from '@stripe/stripe-js';
+import { useAuth } from '../context/AuthContext';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || '');
 
 interface Course {
   id: string;
@@ -18,6 +22,8 @@ interface Course {
 const Courses: React.FC = () => {
   const navigate = useNavigate();
   const [selectedLevel, setSelectedLevel] = useState<string>('all');
+  const [loading, setLoading] = useState<string | null>(null);
+  const { isAuthenticated } = useAuth();
 
   const courses: Course[] = [
     {
@@ -51,6 +57,60 @@ const Courses: React.FC = () => {
       image: 'https://images.unsplash.com/photo-1614028674026-a65e31bfd27c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
     },
   ];
+
+  const handleEnrollClick = async (course: Course) => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      setLoading(course.id);
+      
+      // Create a payment intent on the server
+      const response = await fetch('/api/payment/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          courseId: course.id,
+          amount: course.price,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
+
+      const { clientSecret } = await response.json();
+
+      // Load Stripe
+      const stripe = await stripePromise;
+      if (!stripe) throw new Error('Stripe failed to load');
+
+      // Redirect to Stripe Checkout
+      const { error } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: {
+            token: 'tok_visa', // For testing only
+          },
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Payment successful, redirect to dashboard
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert('Payment failed. Please try again.');
+    } finally {
+      setLoading(null);
+    }
+  };
 
   const filteredCourses = selectedLevel === 'all' 
     ? courses 
@@ -115,10 +175,13 @@ const Courses: React.FC = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-2xl font-bold text-white">${course.price}</span>
                   <button
-                    onClick={() => navigate(`/dashboard`)}
-                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors duration-200"
+                    onClick={() => handleEnrollClick(course)}
+                    disabled={loading === course.id}
+                    className={`px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors duration-200 ${
+                      loading === course.id ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                   >
-                    Enroll Now
+                    {loading === course.id ? 'Processing...' : 'Enroll Now'}
                   </button>
                 </div>
               </div>
@@ -138,4 +201,4 @@ const Courses: React.FC = () => {
   );
 }
 
-export default Courses
+export default Courses;

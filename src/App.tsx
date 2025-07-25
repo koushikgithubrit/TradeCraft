@@ -14,14 +14,10 @@ import ModuleViewer from './components/ModuleViewer';
 import Dashboard from './pages/Dashboard';
 import AdminPanel from './pages/AdminPanel';
 
-// These components will be created later when needed
-const CoursesPage = () => <div>Courses Page</div>;
-const AboutPage = () => <div>About Page</div>;
-
 function App() {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+      <Router>
         <AuthProvider>
           <div className="min-h-screen flex flex-col w-full overflow-x-hidden bg-[#0A0F1C]">
             <Navbar />
@@ -48,5 +44,6 @@ function App() {
     </GoogleOAuthProvider>
   );
 }
+
 export default App;
 

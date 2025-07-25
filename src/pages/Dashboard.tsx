@@ -5,6 +5,12 @@ import { motion } from 'framer-motion';
 import { modules } from '../data/modules';
 import { courseProgressService } from '../services/courseProgress';
 
+interface PurchasedCourse {
+  courseId: string;
+  purchaseDate: string;
+  status: string;
+}
+
 const COURSE_TITLE = "Beginner to Pro Trader";
 
 export default function Dashboard() {
@@ -15,6 +21,7 @@ export default function Dashboard() {
   const [readPages, setReadPages] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState('');
+  const [purchasedCourses, setPurchasedCourses] = useState<PurchasedCourse[]>([]);
 
   // Get user progress from API
   const fetchUserProgress = async () => {
@@ -49,14 +56,36 @@ export default function Dashboard() {
     }
   };
 
+  const fetchPurchasedCourses = async () => {
+    try {
+      const response = await fetch('/api/payment/purchased-courses', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch purchased courses');
+      }
+
+      const courses = await response.json();
+      setPurchasedCourses(courses);
+    } catch (error: any) {
+      console.error('Error fetching purchased courses:', error);
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
       return;
     }
 
-    fetchUserProgress();
-    setLoading(false);
+    Promise.all([
+      fetchUserProgress(),
+      fetchPurchasedCourses()
+    ]).finally(() => setLoading(false));
   }, [isAuthenticated, navigate]);
 
   const handleLogout = () => {
@@ -93,6 +122,7 @@ export default function Dashboard() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Course Progress Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -122,6 +152,34 @@ export default function Dashboard() {
               Continue Learning
             </button>
           </motion.div>
+
+          {/* Purchased Courses */}
+          {purchasedCourses.map((course) => (
+            <motion.div
+              key={course.courseId}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-emerald-500/20 hover:border-emerald-400/40 transition-all duration-300"
+            >
+              <h3 className="text-xl font-semibold text-white mb-2">
+                {course.courseId === '1' ? 'Introduction to Stock Market' :
+                 course.courseId === '2' ? 'Technical Analysis Mastery' :
+                 'Advanced Trading Strategies'}
+              </h3>
+              <p className="text-gray-400 mb-4">
+                Purchased on {new Date(course.purchaseDate).toLocaleDateString()}
+              </p>
+              <div className="text-sm text-gray-300 mb-4">
+                Status: <span className="text-emerald-400">{course.status}</span>
+              </div>
+              <button
+                onClick={() => navigate('/trading-course')}
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+              >
+                Start Learning
+              </button>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
