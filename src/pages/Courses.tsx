@@ -115,7 +115,7 @@ const Courses: React.FC = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-2xl font-bold text-white">${course.price}</span>
                   <button
-                    onClick={() => navigate(`/course/${course.id}`)}
+                    onClick={() => navigate(`/dashboard`)}
                     className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors duration-200"
                   >
                     Enroll Now
