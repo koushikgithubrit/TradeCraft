@@ -1,21 +1,28 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 import PurchasedCourse from '../models/PurchasedCourse.js';
 import verifyToken from '../middleware/auth.js';
 
+// Extend Express Request type
+interface AuthRequest extends Request {
+  user: {
+    userId: string;
+  }
+}
+
 dotenv.config();
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2025-06-30.basil'
+  apiVersion: '2023-10-16'
 });
 
 // Create payment intent
-router.post('/create-payment-intent', verifyToken, async (req, res) => {
+router.post('/create-payment-intent', verifyToken, async (req: Request, res: Response) => {
   try {
     const { courseId, amount } = req.body;
-    const userId = req.user.userId; // Added by verifyToken middleware
+    const userId = (req as AuthRequest).user.userId;
 
     if (!courseId || !amount) {
       return res.status(400).json({ error: 'Course ID and amount are required' });
@@ -46,7 +53,7 @@ router.post('/create-payment-intent', verifyToken, async (req, res) => {
 });
 
 // Webhook to handle successful payments
-router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+router.post('/webhook', express.raw({ type: 'application/json' }), async (req: Request, res: Response) => {
   const sig = req.headers['stripe-signature'];
 
   try {
@@ -79,9 +86,9 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
 });
 
 // Get user's purchased courses
-router.get('/purchased-courses', verifyToken, async (req, res) => {
+router.get('/purchased-courses', verifyToken, async (req: Request, res: Response) => {
   try {
-    const userId = req.user.userId;
+    const userId = (req as AuthRequest).user.userId;
     const purchasedCourses = await PurchasedCourse.find({ userId });
     res.json(purchasedCourses);
   } catch (error: any) {

@@ -23,6 +23,86 @@ export const verifyToken = (req, res, next) => {
   }
 };
 
+// Middleware to verify admin
+const verifyAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.userId);
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({ error: 'Access denied. Admin privileges required.' });
+    }
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Error verifying admin status.' });
+  }
+};
+
+// Get all users
+router.get('/users', async (req, res) => {
+  try {
+    // Fetch all users from MongoDB
+    const users = await User.find({}, '-password').lean();
+    
+    // Add course progress data if available
+    const usersWithProgress = users.map(user => ({
+      ...user,
+      courses: user.courses || []
+    }));
+
+    res.json(usersWithProgress);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+// Register new user/admin
+router.post('/register', async (req, res) => {
+  try {
+    const { email, password, name, isAdmin, mobile } = req.body;
+
+    // Validate input
+    if (!email || !password || !name) {
+      return res.status(400).json({ message: 'Email, password, and name are required' });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    // Create new user
+    const user = new User({
+      email,
+      password,
+      name,
+      isAdmin: isAdmin || false,
+      mobile,
+      courses: [] // Initialize empty courses array
+    });
+
+    await user.save();
+
+    res.status(201).json({
+      message: 'User created successfully',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        mobile: user.mobile,
+        courses: user.courses
+      }
+    });
+  } catch (error) {
+    console.error('Registration error:', error);
+    res.status(500).json({ 
+      message: error.message || 'Error creating user',
+      details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+});
+
 router.post('/google', async (req, res) => {
   try {
     const { token } = req.body;

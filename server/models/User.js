@@ -1,6 +1,24 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+const courseProgressSchema = new mongoose.Schema({
+  courseId: {
+    type: String,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  progress: {
+    type: Number,
+    default: 0
+  },
+  completedTopics: [{
+    type: String
+  }]
+});
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -31,6 +49,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  courses: [courseProgressSchema],
   createdAt: {
     type: Date,
     default: Date.now

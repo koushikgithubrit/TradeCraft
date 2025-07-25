@@ -18,7 +18,7 @@ interface AdminUser {
   courses: Course[];
 }
 
-const API_BASE_URL = 'http://localhost:5000/api/auth';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function AdminPanel() {
   const { user, isAuthenticated } = useAuth();
@@ -44,21 +44,11 @@ export default function AdminPanel() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('auth_token');
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
-
-      const response = await fetch(`${API_BASE_URL}/users`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await fetch(`${API_BASE_URL}/auth/users`);
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to fetch users');
+        throw new Error(errorData.message || errorData.error || 'Failed to fetch users');
       }
 
       const data = await response.json();
@@ -92,15 +82,9 @@ export default function AdminPanel() {
   const handleCreateAdmin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('auth_token');
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
-
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -111,8 +95,11 @@ export default function AdminPanel() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create admin user');
+        throw new Error(errorData.message || errorData.error || 'Failed to create admin user');
       }
+
+      const data = await response.json();
+      console.log('Admin created successfully:', data);
 
       // Clear form and refresh user list
       setNewAdmin({ name: '', email: '', password: '', mobile: '' });
