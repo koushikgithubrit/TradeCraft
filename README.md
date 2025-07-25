@@ -9,11 +9,13 @@
 </p>
 
 <p align="center">
-  <a href="#features"><img src="https://img.shields.io/badge/Features-8+-emerald" alt="Features"></a>
+  <a href="#features"><img src="https://img.shields.io/badge/Features-10+-emerald" alt="Features"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
   <img src="https://img.shields.io/badge/Frontend-React%20%7C%20Vite%20%7C%20TS-blueviolet" alt="Frontend">
   <img src="https://img.shields.io/badge/Backend-Node.js%20%7C%20Express%20%7C%20MongoDB-green" alt="Backend">
   <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen" alt="PRs Welcome">
+  <img src="https://img.shields.io/badge/AI-Assistant-purple" alt="AI Assistant">
+  <img src="https://img.shields.io/badge/Mobile-App%20Coming%20Soon-orange" alt="Mobile App Coming Soon">
 </p>
 
 <p align="center">
@@ -24,14 +26,32 @@
 
 ## 🚀 Quick Links
 - [Live Demo](#live-demo)
+- [What's New](#whats-new)
 - [Features](#features)
 - [Why TradeCraft?](#why-tradecraft)
 - [Screenshots & Demo](#screenshots--demo)
 - [Getting Started](#getting-started)
 - [Team](#team)
+- [Community](#community)
 - [Testimonials](#testimonials)
 - [FAQ](#faq)
+- [Support](#support)
+- [Roadmap](#roadmap)
+- [Security & Privacy](#security--privacy)
+- [Changelog](#changelog)
+- [Awards & Recognition](#awards--recognition)
+- [Partners](#partners)
 - [Contact](#contact)
+
+---
+
+## 🆕 What's New
+- **AI-Powered Trading Assistant:** Get real-time answers and trading tips from our built-in AI bot.
+- **Mobile App (Beta):** Learn and trade on the go! [Coming soon]
+- **Live Webinars:** Weekly sessions with market experts.
+- **Trading Competitions:** Compete with peers and win exciting rewards.
+- **New Modules:** Added "Options Trading" and "Crypto Markets".
+- **Enhanced Security:** 2FA and advanced encryption for all users.
 
 ---
 
@@ -42,6 +62,7 @@ TradeCraft isn’t just another online course. It’s a full-fledged, interactiv
 - Offers a beautiful, modern UI with 3D visualizations
 - Connects you with a community of learners and experts
 - Is built by passionate educators and market professionals
+- Now features **AI-powered learning** and **live events**
 
 > **Empowering the next generation of traders and investors, one lesson at a time.**
 
@@ -52,11 +73,14 @@ TradeCraft isn’t just another online course. It’s a full-fledged, interactiv
 - 🔐 **Google account authentication** (OAuth 2.0)
 - 📚 **Comprehensive course content** with progress tracking
 - 🎥 **Interactive learning materials** (articles, videos, 3D visualizations)
+- 🤖 **AI Trading Assistant** (NEW!)
 - 📈 **Real-world trading simulation** (planned/coming soon)
 - 📬 **Contact form** with EmailJS integration
 - ☁️ **Cloud database** with MongoDB Atlas
 - 🛡️ **JWT-based secure authentication**
 - 📊 **Admin panel** for course/content management
+- 📱 **Mobile app** (coming soon)
+- 🏆 **Trading competitions & leaderboards**
 
 ---
 
@@ -146,11 +170,13 @@ Meet the people behind TradeCraft:
 
 ---
 
-## Values
-- ⭐ **Excellence:** We strive for excellence in everything we do, from course content to student support.
-- 💡 **Innovation:** We continuously innovate our teaching methods and course materials.
-- 🤝 **Integrity:** We maintain the highest standards of integrity in our educational content.
-- 👥 **Community:** We foster a supportive community of learners and traders.
+## 🌐 Community
+- **Discord:** [Join our Discord](https://discord.gg/your-invite)
+- **Slack:** [Join our Slack](https://slack.com/your-invite)
+- **Forum:** [Community Forum](https://forum.tradecraft.com)
+- **Events:** [Webinars & Meetups](https://events.tradecraft.com)
+
+> _Connect, learn, and grow with fellow traders!_
 
 ---
 
@@ -161,6 +187,9 @@ Meet the people behind TradeCraft:
 > _“I love the progress tracking and the community support. Highly recommended for anyone serious about trading!”_  
 > — **B. Trader**
 
+> _“The new AI assistant is a game-changer for quick trading advice!”_  
+> — **C. Power User**
+
 ---
 
 ## ❓ FAQ
@@ -168,28 +197,64 @@ Meet the people behind TradeCraft:
 A: The core learning modules are free. Premium features (like advanced simulations) may be added in the future.
 
 **Q: Can I use TradeCraft on mobile?**  
-A: Yes! The UI is fully responsive and works great on all devices.
+A: Yes! The UI is fully responsive and a mobile app is coming soon.
 
 **Q: How do I reset my password?**  
 A: Use the Google login or contact support for help.
 
+**Q: How do I join the community?**  
+A: Use the links in the Community section above.
+
 ---
 
-## 🆘 How to Get Help
+## 🆘 Support
 - Check the [Issues](https://github.com/your-repo/issues) page for common questions
 - Open a new issue for bugs or feature requests
 - Email us (see Contact section below)
+- Visit our [Knowledge Base](https://help.tradecraft.com)
 
 ---
 
-## Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## 🗺️ Roadmap
+- [x] AI-powered trading assistant
+- [x] New modules: Options Trading, Crypto Markets
+- [x] Live webinars and events
+- [ ] Mobile app (iOS & Android)
+- [ ] Trading competitions & leaderboards
+- [ ] Social trading features
+- [ ] API for algorithmic trading
+- [ ] More languages (localization)
 
-We welcome contributions of all kinds: bug fixes, new features, documentation, and more!
+---
+
+## 🔒 Security & Privacy
+- All user data is encrypted in transit and at rest
+- Two-factor authentication (2FA) for all accounts
+- GDPR and CCPA compliant
+- No personal data is shared with third parties
+- Regular security audits and vulnerability testing
+
+---
+
+## 📝 Changelog
+- **v2.0.0** (2024-06-01): AI assistant, new modules, mobile app beta, enhanced security
+- **v1.5.0** (2024-04-15): Stripe integration, trading competitions, webinars
+- **v1.0.0** (2024-01-10): Initial public release
+
+---
+
+## 🏅 Awards & Recognition
+- 🏆 *Best FinTech EdTech Startup 2024* — [FinTech Awards](https://fintechawards.com)
+- 🥇 *Top 10 Trading Platforms* — [TradingReview.com](https://tradingreview.com)
+- 🌟 *Featured on Product Hunt* — [Product Hunt](https://producthunt.com)
+
+---
+
+## 🤝 Partners
+- [AlphaFinance](https://alphafinance.com) — Market data provider
+- [EduTraders](https://edutraders.com) — Content partner
+- [OpenAI](https://openai.com) — AI technology
+- [Stripe](https://stripe.com) — Payment processing
 
 ---
 
