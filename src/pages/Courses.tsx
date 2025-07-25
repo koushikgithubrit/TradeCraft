@@ -6,7 +6,15 @@ import { motion } from 'framer-motion';
 import { loadStripe } from '@stripe/stripe-js';
 import { useAuth } from '../context/AuthContext';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || '');
+// Initialize Stripe
+const STRIPE_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
+let stripePromise;
+
+if (STRIPE_KEY) {
+  stripePromise = loadStripe(STRIPE_KEY);
+} else {
+  console.error('Stripe public key not found. Please check your environment variables.');
+}
 
 interface Course {
   id: string;

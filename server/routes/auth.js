@@ -6,19 +6,36 @@ import User from '../models/User.js';
 const router = express.Router();
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-// Middleware to verify JWT token
-export const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+// Cookie options
+const cookieOptions = {
+  httpOnly: true, // Prevents client-side access to the cookie
+  secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+  sameSite: 'lax', // Protects against CSRF
+  maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+};
 
-  if (!token) {
-    return res.status(401).json({ error: 'Access denied. No token provided.' });
-  }
-
+// Middleware to verify JWT token from cookie
+export const verifyToken = async (req, res, next) => {
   try {
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ error: 'Access denied. No token provided.' });
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET || '');
     req.user = decoded;
+
+    // Verify user still exists
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      res.clearCookie('token');
+      return res.status(401).json({ error: 'User not found.' });
+    }
+
     next();
   } catch (error) {
+    res.clearCookie('token');
     res.status(401).json({ error: 'Invalid token.' });
   }
 };
@@ -136,6 +153,9 @@ router.post('/google', async (req, res) => {
       { expiresIn: '7d' }
     );
 
+    // Set cookie
+    res.cookie('token', jwtToken, cookieOptions);
+
     res.json({
       token: jwtToken,
       user: {
@@ -160,21 +180,29 @@ router.post('/google', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('Login attempt for email:', email);
 
     // Validate input
     if (!email || !password) {
+      console.log('Missing credentials - Email or password not provided');
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('User not found with email:', email);
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
+    console.log('User found:', { id: user._id, email: user.email, hasPassword: !!user.password });
+
     // Check password
     const isMatch = await user.comparePassword(password);
+    console.log('Password match result:', isMatch);
+
     if (!isMatch) {
+      console.log('Password does not match for user:', email);
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
@@ -182,8 +210,12 @@ router.post('/login', async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '24h' }
+      { expiresIn: '7d' }
     );
+
+    // Set cookie
+    res.cookie('token', token, cookieOptions);
+    console.log('Login successful for user:', email);
 
     res.json({
       token,
@@ -197,11 +229,34 @@ router.post('/login', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error details:', {
+      error: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     res.status(500).json({ 
       message: error.message || 'Error logging in',
       details: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
+  }
+});
+
+// Logout
+router.post('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.json({ message: 'Logged out successfully' });
+});
+
+// Check auth status
+router.get('/check', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ user });
+  } catch (error) {
+    res.status(500).json({ error: 'Error checking auth status' });
   }
 });
 

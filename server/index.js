@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import authRoutes from './routes/auth.js';
@@ -17,12 +18,23 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Basic middleware
 app.use(express.json());
+app.use(cookieParser());
 
-// Special middleware for Stripe webhook
-app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
+// CORS middleware
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // MongoDB Connection with retry logic
 const connectDB = async () => {
@@ -69,12 +81,6 @@ mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
   connectDB();
 });
-
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/courses', courseRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/payment', paymentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
