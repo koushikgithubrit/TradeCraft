@@ -7,7 +7,6 @@ import courseRoutes from './routes/courses.js';
 import contactRoutes from './routes/contact.js';
 
 dotenv.config();
-// const express = require('express');
 
 const app = express();
 
@@ -15,10 +14,59 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/trading-platform')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('MongoDB connection error:', err));
+// MongoDB Connection with retry logic
+const connectDB = async () => {
+  try {
+    const mongoURI = process.env.MONGODB_URI;
+    
+    if (!mongoURI) {
+      throw new Error('MongoDB URI is not defined in environment variables');
+    }
+
+    console.log('Attempting to connect to MongoDB...');
+    
+    await mongoose.connect(mongoURI, {
+      serverSelectionTimeoutMS: 30000, // Timeout after 30 seconds instead of 15
+      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+      // Add these new options
+      maxPoolSize: 10,
+      minPoolSize: 2,
+      maxIdleTimeMS: 30000,
+      waitQueueTimeoutMS: 15000,
+      connectTimeoutMS: 30000,
+      retryWrites: true,
+      heartbeatFrequencyMS: 5000,
+      // Buffer commands until connection is ready
+      bufferCommands: true
+    });
+
+    // Set mongoose specific options
+    mongoose.set('autoIndex', true);
+    mongoose.set('bufferCommands', true);
+    mongoose.set('bufferTimeoutMS', 20000);
+
+    console.log('Successfully connected to MongoDB');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    // Retry connection after 5 seconds
+    console.log('Retrying connection in 5 seconds...');
+    setTimeout(connectDB, 5000);
+  }
+};
+
+// Initial database connection
+connectDB();
+
+// Handle MongoDB connection events
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected! Attempting to reconnect...');
+  connectDB();
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+  connectDB();
+});
 
 // Routes
 app.use('/api/auth', authRoutes);

@@ -126,10 +126,37 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    // Find user
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials' });
+    // Add retry logic for findOne operation
+    let user = null;
+    let retries = 3;
+    let lastError = null;
+
+    while (retries > 0 && !user) {
+      try {
+        // Find user with timeout promise
+        user = await Promise.race([
+          User.findOne({ email }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Database operation timed out')), 5000)
+          )
+        ]);
+        
+        if (!user) {
+          return res.status(400).json({ message: 'Invalid credentials' });
+        }
+      } catch (error) {
+        lastError = error;
+        retries--;
+        if (retries > 0) {
+          console.log(`Retrying login operation. Attempts remaining: ${retries}`);
+          await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retry
+        }
+      }
+    }
+
+    if (!user && lastError) {
+      console.error('Login operation failed after retries:', lastError);
+      return res.status(500).json({ message: 'Database operation failed, please try again' });
     }
 
     // Check password
