@@ -36,9 +36,7 @@ export default function About() {
           >
             <h2 className="text-2xl font-semibold text-white mb-4">Our Mission</h2>
             <p className="text-gray-300">
-              To empower individuals with the knowledge and skills needed to navigate the stock market
-              confidently and make informed investment decisions. We believe that financial education
-              should be accessible to everyone.
+              At TradeCraft, our mission is to empower individuals—especially beginners—with the knowledge and confidence to navigate the complex world of stock market trading. We strive to bridge the gap between theoretical education and practical application by offering an all-in-one platform that blends structured learning, real-time simulations, and interactive tools. Our goal is to make financial literacy accessible, engaging, and actionable for everyone, regardless of their background or experience level.
             </p>
           </motion.div>
 
@@ -50,8 +48,7 @@ export default function About() {
           >
             <h2 className="text-2xl font-semibold text-white mb-4">Our Vision</h2>
             <p className="text-gray-300">
-              To become the leading platform for stock market education, known for our practical
-              approach, expert instructors, and commitment to student success in the financial markets.
+              We envision a future where stock market education is no longer a privilege limited to experts or professionals. TradeCraft aims to become a leading platform in FinTech and EdTech by redefining how people learn and practice investing. By integrating cutting-edge technologies like interactive 3D content, personalized learning paths, and real-world trading simulations, we seek to create a global community of financially empowered individuals equipped to make smart investment decisions.
             </p>
           </motion.div>
         </div>
@@ -109,21 +106,21 @@ export default function About() {
 
 const team = [
   {
-    name: 'John Smith',
-    role: 'Founder & CEO',
-    description: '20+ years of experience in financial markets and trading education.',
+    name: 'Nikita Maity',
+    role: 'Frontend & Researcher',
+    description: '4th year student, expert in building responsive user interfaces and conducting in-depth market and UX research',
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
   },
   {
-    name: 'Sarah Johnson',
-    role: 'Head of Education',
-    description: 'Certified financial analyst with a passion for teaching and mentoring.',
+    name: 'Sucharita Sahoo',
+    role: 'Frontend & Testing',
+    description: '4th year student, expert in developing intuitive user interfaces and ensuring application reliability through rigorous testing.',
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
   },
   {
-    name: 'Michael Chen',
-    role: 'Lead Market Analyst',
-    description: 'Expert in technical analysis and market strategy development.',
+    name: 'Neha Maiti',
+    role: 'Frontend',
+    description: '4th year student, expert in crafting responsive and user-friendly web interfaces using modern frontend technologies.',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
   },
 ];
